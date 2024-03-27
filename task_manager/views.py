@@ -1,5 +1,2 @@
-from django.shortcuts import render
-
-
-def index(request):
-    return render(request, 'index.html', context={})
+# from django.shortcuts import render
+# from django.views import View
