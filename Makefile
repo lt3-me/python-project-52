@@ -10,8 +10,15 @@ test-local:
 install:
 	poetry install
 
+build:
+	poetry install
+
 dev:
 	poetry run python manage.py runserver
+
+PORT ?= 8000
+start:
+	poetry run gunicorn -w 5 -b 0.0.0.0:$(PORT) task_manager.wsgi:application
 
 check:
 	make lint
@@ -19,15 +26,3 @@ check:
 
 test-coverage:
 	poetry run python3 -m pytest --cov=task_manager --cov-report=xml
-
-build:
-	poetry build
-
-publish:
-	poetry publish --dry-run
-
-package-install:
-	python3 -m pip install --user dist/*.whl
-
-package-force-reinstall:
-	python3 -m pip install --user dist/*.whl --force-reinstall
