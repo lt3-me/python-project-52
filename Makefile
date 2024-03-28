@@ -14,7 +14,7 @@ build:
 	make install
 
 migrations:
-	poetry run python manage.py makemigrations task_manager
+	poetry run python manage.py makemigrations
 
 migrate:
 	poetry run python manage.py migrate
