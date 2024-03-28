@@ -20,6 +20,8 @@ migrate:
 	poetry run python manage.py migrate
 
 dev:
+	make migrations
+	make migrate
 	poetry run python manage.py runserver
 
 PORT ?= 8000
