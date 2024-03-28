@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% load i18n %}
+
+{% block content %}
+<h1 class="my-4">{% trans "Users"%}</h1>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th class="col-1 bg-light border">ID</th>
+      <th class="col-3 bg-light border">{% trans "Username"%}</th>
+      <th class="col-5 bg-light border">{% trans "Full Name"%}</th>
+      <th class="col-2 bg-light border">{% trans "Created at"%}</th>
+      <th class="col-1"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="col-1 bg-light border">2</td>
+      <td class="col-3">alex_kosmylev</td>
+      <td class="col-5">Aleksandr edit Kosmylev</td>
+      <td class="col-2">19.02.2024 07:41</td>
+      <td class="bg-light text-center col-1 border">
+        <a href="/users/2/update/">{% trans "Edit"%}</a>
+        <br>
+        <a href="/users/2/delete/">{% trans "Delete"%}</a>
+      </td>
+    </tr>
+    {% for user in users %}
+    <tr>
+      <td class="col-1 bg-light border">{{ user.id }}</td>
+      <td class="col-3">{{ user.name }}</td>
+      <td class="col-5">{{ user.full_name }}</td>
+      <td class="col-2">{{ user.created_at }}</td>
+      <td class="bg-light text-center col-1 border">
+        <a href="/users/2/update/">{% trans "Edit"%}</a>
+        <br>
+        <a href="/users/2/delete/">{% trans "Delete"%}</a>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

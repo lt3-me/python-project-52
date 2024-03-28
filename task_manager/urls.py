@@ -15,17 +15,15 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
-from django.views.generic import TemplateView
-from django.conf.urls.i18n import i18n_patterns
+from django.urls import path, include
+from django.views.generic import TemplateView, RedirectView
+# from django.conf.urls.i18n import i18n_patterns
 # from task_manager import views
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-]
-
-urlpatterns += i18n_patterns(
+    path('favicon.ico/', RedirectView.as_view(url='/static/favicon.ico')),
+    path('users/', include('task_manager.user.urls')),
     path('', TemplateView.as_view(template_name='index.html'), name='index'),
-    # path('users/', %, name='users'),
-)
+]

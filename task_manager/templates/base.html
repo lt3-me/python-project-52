@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<html lang="ru-ru">
 
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -8,6 +7,7 @@
   {% bootstrap_css %}
   {% bootstrap_javascript %}
   {% load i18n %}
+  <link rel="icon" href="data:,">
 </head>
 
 <body class="d-flex flex-column min-vh-100">
@@ -22,7 +22,7 @@
     <div class="collapse navbar-collapse ps-3 pe-4" id="navbarToggleExternalContent">
       <ul class="navbar-nav me-auto">
         <li class="nav-item">
-          <a class="nav-link" href="/users/">{% trans "Users"%}</a>
+          <a class="nav-link" href="{% url 'users' %}">{% trans "Users"%}</a>
         </li>
       </ul>
       <ul class="navbar-nav ms-auto">
