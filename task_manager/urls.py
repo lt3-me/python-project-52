@@ -24,6 +24,6 @@ from django.views.generic import TemplateView, RedirectView
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('favicon.ico/', RedirectView.as_view(url='/static/favicon.ico')),
-    path('users/', include('task_manager.user.urls')),
+    path('users/', include('task_manager.users.urls')),
     path('', TemplateView.as_view(template_name='index.html'), name='index'),
 ]
