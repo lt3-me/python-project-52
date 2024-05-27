@@ -1,7 +1,8 @@
 from django.shortcuts import render
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from task_manager.users.models import User
-from task_manager.users.forms import CreateUserForm
+from task_manager.users.forms import UserDataForm
+from django.contrib.messages.views import SuccessMessageMixin
 from django.utils.translation import gettext_lazy as _
 from django.urls import reverse_lazy
 
@@ -15,10 +16,10 @@ class UsersView(ListView):
     }
 
 
-class CreateUserView(CreateView):
+class CreateUserView(SuccessMessageMixin, CreateView):
     template_name = 'form.html'
     model = User
-    form_class = CreateUserForm
+    form_class = UserDataForm
     success_url = reverse_lazy('login')
     success_message = _('You have been signed up successfully.')
     extra_context = {
@@ -28,7 +29,18 @@ class CreateUserView(CreateView):
 
 
 class UpdateUserView(UpdateView):
-    pass
+    template_name = 'form.html'
+    model = User
+    form_class = UserDataForm
+    login_url = reverse_lazy('login')
+    success_url = reverse_lazy('users')
+    success_message = _('User has been successfully updated.')
+    permission_message = _('You have no permission to edit another user.')
+    permission_url = reverse_lazy('users')
+    extra_context = {
+        'title': _('Edit User Info'),
+        'button_text': _('Update'),
+    }
 
 
 class DeleteUserView(DeleteView):
