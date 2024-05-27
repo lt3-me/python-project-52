@@ -8,6 +8,7 @@
 {% endblock %}
 
 {% block content %}
+<div class="container col-6">
     <h1 class="my-4">{{ title }}</h1>
 
     <form method="post">
@@ -15,4 +16,5 @@
         {% bootstrap_form form %}
         {% bootstrap_button button_text button_type="submit" button_class="btn btn-primary" %}
     </form>
+</div>
 {% endblock %}
