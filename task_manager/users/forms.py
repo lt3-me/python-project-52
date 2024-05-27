@@ -24,10 +24,10 @@ class CreateUserForm(UserCreationForm):
         validators=[
             RegexValidator(
                 regex=r'^[\w.@+-]+$',
-                message=_("Required field. No more than 150 characters. Only letters, numbers and @.+-_ characters.")
+                message=_("Required field. No more than 150 characters. Only letters, numbers and @.+-_ characters.") # noqa e501
             )
         ],
-        help_text=_("Required field. No more than 150 characters. Only letters, numbers and @.+-_ characters.")
+        help_text=_("Required field. No more than 150 characters. Only letters, numbers and @.+-_ characters.") # noqa e501
     )
 
     class Meta(UserCreationForm.Meta):
