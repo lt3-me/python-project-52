@@ -25,3 +25,11 @@ class CreateUserView(CreateView):
         'title': _('Sign Up'),
         'button_text': _('Sign Me Up'),
     }
+
+
+class UpdateUserView(UpdateView):
+    pass
+
+
+class DeleteUserView(DeleteView):
+    pass

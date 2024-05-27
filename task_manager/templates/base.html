@@ -11,34 +11,13 @@
 </head>
 
 <body class="d-flex flex-column min-vh-100">
-  <nav class="navbar navbar-expand-lg navbar-dark bg-primary px-3">
-    <div class="container-fluid">
-      <div class="navbar-header mb-1">
-        <a class="navbar-brand" href="{% url 'index' %}">{% trans "Task Manager"%}</a>
-      </div>
-    <button class="navbar-toggler px-3" data-bs-toggle="collapse" data-bs-target="#navbarToggleExternalContent">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse ps-3 pe-4" id="navbarToggleExternalContent">
-      <ul class="navbar-nav me-auto">
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'users' %}">{% trans "Users"%}</a>
-        </li>
-      </ul>
-      <ul class="navbar-nav ms-auto">
-        <li class="nav-item pe-2">
-          <a class="nav-link" href="/login/">{% trans "Log In"%}</a> <!-- заменить ссылками -->
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'create_user' %}">{% trans "Sign Up"%}</a>
-        </li>
-      </ul>
-    </div>
-  </div>
-  </nav>
-  <div class="container wrapper flex-grow-1">
+  <header>
+    {% include 'navbar.html' %}
+  </header>
+  <main class="container wrapper flex-grow-1 mt-3">
+    {% bootstrap_messages %}
     {% block content %}{% endblock %}
-  </div>
+  </main>
   <footer class="border-top py-3 mt-5 flex-shrink-0">
     <div class="text-center">
       <a target="_blank" href="https://ru.hexlet.io">Hexlet</a>
