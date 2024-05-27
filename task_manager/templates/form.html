@@ -9,12 +9,14 @@
 
 {% block content %}
 <div class="container col-6">
-    <h1 class="my-4">{{ title }}</h1>
+    <h1 class="my-4 text-center">{{ title }}</h1>
 
     <form method="post">
         {% csrf_token %}
         {% bootstrap_form form %}
-        {% bootstrap_button button_text button_type="submit" button_class="btn btn-primary" %}
+        <div class="text-center mt-5">
+            {% bootstrap_button button_text button_type="submit" button_class="btn btn-outline-primary col-6" %}
+        </div>
     </form>
 </div>
 {% endblock %}
