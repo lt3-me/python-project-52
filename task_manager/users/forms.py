@@ -35,3 +35,7 @@ class UserDataForm(UserCreationForm):
         fields = (
             'first_name', 'last_name', 'username',
             'password1', 'password2')
+
+    def clean_username(self):
+        username = self.cleaned_data['username']
+        return username

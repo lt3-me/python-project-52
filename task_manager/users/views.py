@@ -1,7 +1,7 @@
-from django.shortcuts import render
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from task_manager.users.models import User
 from task_manager.users.forms import UserDataForm
+from task_manager.mixins import LoginCheckMixin, UserCheckMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.utils.translation import gettext_lazy as _
 from django.urls import reverse_lazy
@@ -28,7 +28,9 @@ class CreateUserView(SuccessMessageMixin, CreateView):
     }
 
 
-class UpdateUserView(UpdateView):
+class UpdateUserView(
+        LoginCheckMixin, UserCheckMixin,
+        SuccessMessageMixin, UpdateView):
     template_name = 'form.html'
     model = User
     form_class = UserDataForm
@@ -43,5 +45,16 @@ class UpdateUserView(UpdateView):
     }
 
 
-class DeleteUserView(DeleteView):
-    pass
+class DeleteUserView(
+        LoginCheckMixin, UserCheckMixin,
+        SuccessMessageMixin, DeleteView):
+    template_name = 'users/delete.html'
+    model = User
+    success_url = reverse_lazy('users')
+    success_message = _('User has been successfully deleted')
+    permission_message = _('You have no permission to delete another user.')
+    permission_url = reverse_lazy('users')
+    extra_context = {
+        'title': _('Delete user'),
+        'button_text': _('Yes, delete'),
+    }
