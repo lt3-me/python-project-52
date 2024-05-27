@@ -17,6 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import TemplateView, RedirectView
+from .views import UserLoginView, UserLogoutView
 # from django.conf.urls.i18n import i18n_patterns
 # from task_manager import views
 
@@ -24,6 +25,9 @@ from django.views.generic import TemplateView, RedirectView
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('favicon.ico/', RedirectView.as_view(url='/static/favicon.ico')),
+
     path('users/', include('task_manager.users.urls')),
+
     path('', TemplateView.as_view(template_name='index.html'), name='index'),
+    path('login/', UserLoginView.as_view(), name='login'),
 ]
