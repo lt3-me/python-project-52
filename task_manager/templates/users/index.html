@@ -3,7 +3,7 @@
 {% load i18n %}
 
 {% block content %}
-<h1 class="my-4">{% trans "Users"%}</h1>
+<h1 class="my-4">{{ title }}</h1>
 
 <table class="table table-striped">
   <thead>
@@ -19,13 +19,13 @@
     {% for user in users %}
     <tr>
       <td class="col-1 bg-light border">{{ user.id }}</td>
-      <td class="col-3">{{ user.name }}</td>
-      <td class="col-5 border">{{ user.full_name }}</td>
+      <td class="col-3">{{ user }}</td>
+      <td class="col-5 border">{{ user.get_full_name }}</td>
       <td class="col-2">{{ user.created_at|date:'d.m.Y H:m' }}</td>
       <td class="bg-light text-center col-1 border">
-        <a href="/users/2/update/">{% trans "Edit"%}</a>
+        <a href="/users/{{ user.id }}/update/">{% trans "Edit"%}</a>
         <br>
-        <a href="/users/2/delete/">{% trans "Delete"%}</a>
+        <a href="/users/{{ user.id }}/delete/">{% trans "Delete"%}</a>
       </td>
     </tr>
     {% endfor %}

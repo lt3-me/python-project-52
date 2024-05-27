@@ -10,6 +10,9 @@ class UsersView(ListView):
     template_name = 'users/index.html'
     model = User
     context_object_name = 'users'
+    extra_context = {
+        'title': _('Users')
+    }
 
 
 class CreateUserView(CreateView):
