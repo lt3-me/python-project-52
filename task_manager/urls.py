@@ -27,6 +27,7 @@ urlpatterns = [
     path('favicon.ico/', RedirectView.as_view(url='/static/favicon.ico')),
 
     path('users/', include('task_manager.users.urls')),
+    path('statuses/', include('task_manager.statuses.urls')),
 
     path('', TemplateView.as_view(template_name='index.html'), name='index'),
     path('login/', UserLoginView.as_view(), name='login'),
