@@ -2,10 +2,7 @@ lint:
 	poetry run flake8 task_manager
 
 test:
-	poetry run pytest
-
-test-local:
-	poetry run python3 -m pytest
+	poetry run python manage.py test
 
 install:
 	poetry install
