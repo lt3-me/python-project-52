@@ -2,7 +2,7 @@ import json
 import os
 
 from django.urls import reverse_lazy
-from django.test import TransactionTestCase
+from django.test import TestCase
 from django.utils.translation import override
 
 from task_manager.users.models import User
@@ -15,7 +15,7 @@ TESTUSER = json.load(open(os.path.join(FIXTURES_DIR_PATH, 'user.json')))
 USER_EDIT = json.load(open(os.path.join(FIXTURES_DIR_PATH, 'user_edit.json')))
 
 
-class CRUDTest(TransactionTestCase):
+class CRUDTest(TestCase):
     def test_user_create(self):
         response = self.client.get(reverse_lazy('create_user'))
         self.assertEqual(response.status_code, 200)
