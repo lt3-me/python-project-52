@@ -48,7 +48,7 @@ class UpdateUserView(
 class DeleteUserView(
         LoginCheckMixin, UserCheckMixin,
         SuccessMessageMixin, DeleteView):
-    template_name = 'users/delete.html'
+    template_name = 'delete.html'
     model = User
     success_url = reverse_lazy('users')
     success_message = _('User has been successfully deleted')
@@ -58,3 +58,10 @@ class DeleteUserView(
         'title': _('Delete user'),
         'button_text': _('Yes, delete'),
     }
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user_to_delete = self.object
+        context['deleted_name'] = f'\
+            {user_to_delete.first_name} {user_to_delete}'
+        return context
