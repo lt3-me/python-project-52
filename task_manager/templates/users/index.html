@@ -23,9 +23,9 @@
       <td class="col-5 border">{{ user.get_full_name }}</td>
       <td class="col-2">{{ user.created_at|date:'d.m.Y H:m' }}</td>
       <td class="bg-light text-center col-1 border">
-        <a href="/users/{{ user.id }}/update/">{% trans "Edit"%}</a>
+        <a href="{% url 'update_user' user.id %}">{% trans "Edit"%}</a>
         <br>
-        <a href="/users/{{ user.id }}/delete/">{% trans "Delete"%}</a>
+        <a href="{% url 'delete_user' user.id %}">{% trans "Delete"%}</a>
       </td>
     </tr>
     {% endfor %}

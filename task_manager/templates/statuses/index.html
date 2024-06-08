@@ -4,7 +4,7 @@
 
 {% block content %}
 <h1 class="my-4">{{ title }}</h1>
-<a class="btn btn-outline-primary mb-3" href="/statuses/create/">{% trans "Create status"%}</a>
+<a class="btn btn-outline-primary mb-3" href="{% url 'create_status' %}">{% trans "Create status"%}</a>
 <table class="table table-striped">
   <thead>
     <tr>
@@ -21,9 +21,9 @@
       <td class="col-4">{{ status }}</td>
       <td class="col-3 border">{{ status.created_at|date:'d.m.Y H:m' }}</td>
       <td class="bg-light text-center col-1 border">
-        <a href="/statuses/{{ status.id }}/update/">{% trans "Edit"%}</a>
+        <a href="{% url 'update_status' status.id %}">{% trans "Edit"%}</a>
         <br>
-        <a href="/statuses/{{ status.id }}/delete/">{% trans "Delete"%}</a>
+        <a href="{% url 'delete_status' status.id %}">{% trans "Delete"%}</a>
       </td>
     </tr>
     {% endfor %}
