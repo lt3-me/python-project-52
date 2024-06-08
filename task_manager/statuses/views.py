@@ -1,8 +1,5 @@
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from .models import Status
-# from .forms import UserDataForm
-# from task_manager.mixins import LoginCheckMixin, UserCheckMixin
-# from django.contrib.messages.views import SuccessMessageMixin
 from django.utils.translation import gettext_lazy as _
 from django.urls import reverse_lazy
 from task_manager.mixins import LoginCheckMixin
@@ -32,6 +29,11 @@ class CreateStatusView(
         'title': _('Create status'),
         'button_text': _('Create')
     }
+
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        form.fields['name'].label = _('Name')
+        return form
 
 
 class UpdateStatusView(
