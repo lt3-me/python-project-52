@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% load i18n %}
+
+{% block content %}
+<h1 class="my-4">{{ title }}</h1>
+<a class="btn btn-outline-primary mb-3" href="{% url 'create_task' %}">{% trans "Create task"%}</a>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th class="col-1 bg-light border">ID</th>
+      <th class="col-3 bg-light border">{% trans "Name"%}</th>
+      <th class="col-2 bg-light border">{% trans "Status"%}</th>
+      <th class="col-2 bg-light border">{% trans "Creator"%}</th>
+      <th class="col-2 bg-light border">{% trans "Executor"%}</th>
+      <th class="col-2 bg-light border">{% trans "Created at"%}</th>
+      <th class="col-1"></th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for task in tasks %}
+    <tr>
+      <td class="col-1 bg-light border">{{ task.id }}</td>
+      <td class="col-3">{{ task.name }}</td>
+      <td class="col-2 border">{{ task.status }}</td>
+      <td class="col-2">{{ task.creator }}</td>
+      <td class="col-2 border">{{ task.executor }}</td>
+      <td class="col-2">{{ task.created_at|date:'d.m.Y H:m' }}</td>
+      <td class="bg-light text-center col-1 border">
+        <a href="/users/{{ task.id }}/update/">{% trans "Edit"%}</a>
+        <br>
+        <a href="/users/{{ task.id }}/delete/">{% trans "Delete"%}</a>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
