@@ -17,13 +17,20 @@ class LoginCheckMixin(LoginRequiredMixin):
         return super().dispatch(request, *args, **kwargs)
 
 
-class UserCheckMixin(UserPassesTestMixin):
+class UserPermissionCheckMixin(UserPassesTestMixin):
     permission_message = None
     permission_url = None
-
-    def test_func(self):
-        return self.get_object() == self.request.user
 
     def handle_no_permission(self):
         messages.error(self.request, self.permission_message)
         return redirect(self.permission_url)
+
+
+class UserCheckMixin(UserPermissionCheckMixin):
+    def test_func(self):
+        return self.get_object() == self.request.user
+
+
+class AccessOnlyByCreatorMixin(UserPermissionCheckMixin):
+    def test_func(self):
+        return self.get_object().creator == self.request.user
