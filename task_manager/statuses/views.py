@@ -58,7 +58,7 @@ class DeleteStatusView(
     template_name = 'delete.html'
     model = Status
     success_url = reverse_lazy('statuses')
-    success_message = _('Status has been successfully deleted')
+    success_message = _('Status has been successfully deleted.')
     extra_context = {
         'title': _('Delete status'),
         'button_text': _('Yes, delete'),
