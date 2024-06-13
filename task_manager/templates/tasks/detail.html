@@ -13,11 +13,8 @@
 
     <div class="card-body bg-light">
         <p>{{ task.description }}</p>
-
         <hr>
-
         <div class="container">
-
             <div class="row p-1">
                 <div class="col">{% trans 'Creator' %}</div>
                 <div class="col">{{ task.creator }}</div>
@@ -36,9 +33,12 @@
             </div>
             <div class="row p-1">
                 <div class="col">
-                    <a href="{% url 'update_status' task.id %}">{% trans 'Update' %}</a>
                     <br>
-                    <a href="{% url 'delete_status' task.id %}">{% trans 'Delete' %}</a>
+                    <a href="{% url 'update_task' task.id %}">{% trans 'Update' %}</a>
+                    <br>
+                    <a href="{% url 'delete_task' task.id %}">{% trans 'Delete' %}</a>
+                    <br><br>
+                    <a href="{% url 'tasks' %}">{% trans 'Back' %}</a>
                 </div>
             </div>
         </div>

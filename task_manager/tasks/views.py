@@ -60,7 +60,15 @@ class UpdateTaskView(
         SuccessMessageMixin,
         AccessOnlyByCreatorMixin,
         UpdateView):
-    pass
+    template_name = 'form.html'
+    form_class = TaskForm
+    model = Task
+    success_url = reverse_lazy('tasks')
+    success_message = _('Task has been edited successfully.')
+    extra_context = {
+        'title': _('Edit task'),
+        'button_text': _('Edit'),
+    }
 
 
 class DeleteTaskView(
@@ -68,4 +76,13 @@ class DeleteTaskView(
         SuccessMessageMixin,
         AccessOnlyByCreatorMixin,
         DeleteView):
-    pass
+    template_name = 'delete.html'
+    model = Task
+    success_url = reverse_lazy('tasks')
+    success_message = _('Task has been successfully deleted.')
+    author_message = _('Task can be deleted only by the creator.')
+    author_url = reverse_lazy('tasks')
+    extra_context = {
+        'title': _('Delete task'),
+        'button_text': _('Yes, delete'),
+    }
