@@ -1,7 +1,8 @@
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from task_manager.users.models import User
 from task_manager.users.forms import UserDataForm
-from task_manager.mixins import LoginCheckMixin, UserCheckMixin
+from task_manager.mixins import LoginCheckMixin, UserCheckMixin, \
+                                DeleteProtectionMessageMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.utils.translation import gettext_lazy as _
 from django.urls import reverse_lazy
@@ -35,10 +36,9 @@ class UpdateUserView(
     model = User
     form_class = UserDataForm
     login_url = reverse_lazy('login')
-    success_url = reverse_lazy('users')
     success_message = _('User has been successfully updated.')
     permission_message = _('You have no permission to edit another user.')
-    permission_url = reverse_lazy('users')
+    success_url = permission_url = reverse_lazy('users')
     extra_context = {
         'title': _('Edit User Info'),
         'button_text': _('Update'),
@@ -46,14 +46,15 @@ class UpdateUserView(
 
 
 class DeleteUserView(
-        LoginCheckMixin, UserCheckMixin,
-        SuccessMessageMixin, DeleteView):
+        LoginCheckMixin, UserCheckMixin, SuccessMessageMixin,
+        DeleteProtectionMessageMixin, DeleteView):
     template_name = 'delete.html'
     model = User
-    success_url = reverse_lazy('users')
     success_message = _('User has been successfully deleted')
     permission_message = _('You have no permission to delete another user.')
-    permission_url = reverse_lazy('users')
+    protected_message = _(
+        'You cannot delete a user who is currently being used.')
+    success_url = permission_url = protected_url = reverse_lazy('users')
     extra_context = {
         'title': _('Delete user'),
         'button_text': _('Yes, delete'),
