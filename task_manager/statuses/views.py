@@ -2,7 +2,7 @@ from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from .models import Status
 from django.utils.translation import gettext_lazy as _
 from django.urls import reverse_lazy
-from task_manager.mixins import LoginCheckMixin
+from task_manager.mixins import LoginCheckMixin, DeleteProtectionMessageMixin
 from django.contrib.messages.views import SuccessMessageMixin
 
 
@@ -54,11 +54,14 @@ class UpdateStatusView(
 class DeleteStatusView(
         LoginCheckMixin,
         SuccessMessageMixin,
+        DeleteProtectionMessageMixin,
         DeleteView):
     template_name = 'delete.html'
     model = Status
-    success_url = reverse_lazy('statuses')
+    protected_url = success_url = reverse_lazy('statuses')
     success_message = _('Status has been successfully deleted.')
+    protected_message = _(
+            'You cannot delete a status which is currently being used.')
     extra_context = {
         'title': _('Delete status'),
         'button_text': _('Yes, delete'),
