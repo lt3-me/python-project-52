@@ -21,3 +21,9 @@ class UserActiveTaskTest(TestCase):
 
     def test_delete_task_executor(self):
         pass
+
+    def test_delete_status_related_to_task(self):
+        pass
+
+    def test_delete_label_related_to_task(self):
+        pass

@@ -1,0 +1,7 @@
+{
+    "name": "test task 2",
+    "description": "It's new",
+    "executor": 1,
+    "status": 2,
+    "labels": [1, 2]
+}

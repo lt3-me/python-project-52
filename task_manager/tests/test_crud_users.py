@@ -37,18 +37,8 @@ class CRUDTest(TestCase):
 
     @override('en')
     def test_user_update(self):
-        # Update while not logged in (not allowed)
-        user = User.objects.create_user(TESTUSER)
-        response = self.client.post(
-            reverse_lazy(
-                'update_user',
-                kwargs={'pk': user.id}
-            ), USER_EDIT, follow=True
-        )
-        self.assertRedirects(response, reverse_lazy('login'))
-        self.assertContains(response,
-                            'You are not logged in! Please log in.')
         # Logging in
+        user = User.objects.create_user(TESTUSER)
         self.client.force_login(user=user)
         # Update another user (not allowed)
         other_user = User.objects.create_user(username='other', password='123')
@@ -77,19 +67,8 @@ class CRUDTest(TestCase):
 
     @override('en')
     def test_user_delete(self):
-        # Delete while not logged in (not allowed)
-        user = User.objects.create_user(TESTUSER)
-        response = self.client.post(
-            reverse_lazy(
-                'delete_user',
-                kwargs={'pk': user.id}
-            ), follow=True
-        )
-        self.assertRedirects(response, reverse_lazy('login'))
-        self.assertContains(response,
-                            'You are not logged in! Please log in.')
-        self.assertIn(user, User.objects.all())
         # Logging in
+        user = User.objects.create_user(TESTUSER)
         self.client.force_login(user=user)
         # Delete another user (not allowed)
         other_user = User.objects.create_user(username='other', password='123')

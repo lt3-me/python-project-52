@@ -1,0 +1,7 @@
+{
+    "name": "test task",
+    "description": "Do the barrel roll",
+    "executor": 2,
+    "status": 1,
+    "labels": [1]
+}
