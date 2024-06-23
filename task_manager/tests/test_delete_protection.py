@@ -1,31 +1,19 @@
-import json
-import os
-
 from django.urls import reverse_lazy
 from django.test import TestCase
 from django.utils.translation import override
 
 from task_manager.users.models import User
+from task_manager.tasks.models import Task
 from task_manager.statuses.models import Status
 from task_manager.labels.models import Label
 
-from .test_crud_tasks import create_task_object
 
-
-FIXTURES_DIR_PATH = os.path.join(
-    os.path.dirname(os.path.abspath(__file__)), 'fixtures'
-)
-TESTUSER = json.load(open(os.path.join(FIXTURES_DIR_PATH, 'user.json')))
-TASK = json.load(open(os.path.join(
-    FIXTURES_DIR_PATH, 'task.json')))
-
-
-class UserActiveTaskTest(TestCase):
-    fixtures = ['task_manager/tests/fixtures/db.json']
+class ActiveTaskProtectionTest(TestCase):
+    fixtures = ['task_manager/tests/fixtures/db_tasks.json']
 
     def setUp(self):
-        self.user = User.objects.create_user(TESTUSER)
-        self.task = create_task_object(TASK, self.user)
+        self.user = User.objects.get(pk=1)
+        self.task = Task.objects.get(pk=1)
 
     @override('en')
     def test_delete_task_creator(self):
@@ -91,3 +79,39 @@ class UserActiveTaskTest(TestCase):
             'You cannot delete a label which is currently being used.'
             )
         self.assertIn(task_label, Label.objects.all())
+
+
+class UserProtectionTest(TestCase):
+    fixtures = ['task_manager/tests/fixtures/db_tasks.json']
+
+    def setUp(self):
+        self.user = User.objects.get(pk=1)
+        self.another_user = User.objects.get(pk=2)
+        self.client.force_login(user=self.user)
+
+    @override('en')
+    def test_delete_another_user(self):
+        response = self.client.post(
+            reverse_lazy(
+                'delete_user',
+                kwargs={'pk': self.another_user.id}
+            ), follow=True
+        )
+        self.assertRedirects(response, reverse_lazy('users'))
+        self.assertContains(response,
+                            'You have no permission to delete another user.')
+        self.assertIn(self.another_user, User.objects.all())
+
+    @override('en')
+    def test_update_another_user(self):
+        response = self.client.post(
+            reverse_lazy(
+                'update_user',
+                kwargs={'pk': self.another_user.id}
+            ), {}, follow=True
+        )
+        self.assertRedirects(response, reverse_lazy('users'))
+        self.assertContains(response,
+                            'You have no permission to edit another user.')
+        same_other_user = User.objects.get(pk=self.another_user.id)
+        self.assertEqual(self.another_user, same_other_user)

@@ -37,23 +37,8 @@ class CRUDTest(TestCase):
 
     @override('en')
     def test_user_update(self):
-        # Logging in
         user = User.objects.create_user(TESTUSER)
         self.client.force_login(user=user)
-        # Update another user (not allowed)
-        other_user = User.objects.create_user(username='other', password='123')
-        response = self.client.post(
-            reverse_lazy(
-                'update_user',
-                kwargs={'pk': other_user.id}
-            ), USER_EDIT, follow=True
-        )
-        self.assertRedirects(response, reverse_lazy('users'))
-        self.assertContains(response,
-                            'You have no permission to edit another user.')
-        same_other_user = User.objects.get(pk=other_user.id)
-        self.assertEqual(other_user, same_other_user)
-        # Update while logged in
         response = self.client.post(
             reverse_lazy(
                 'update_user',
@@ -67,23 +52,9 @@ class CRUDTest(TestCase):
 
     @override('en')
     def test_user_delete(self):
-        # Logging in
         user = User.objects.create_user(TESTUSER)
         self.client.force_login(user=user)
-        # Delete another user (not allowed)
-        other_user = User.objects.create_user(username='other', password='123')
-        response = self.client.post(
-            reverse_lazy(
-                'delete_user',
-                kwargs={'pk': other_user.id}
-            ), follow=True
-        )
-        self.assertRedirects(response, reverse_lazy('users'))
-        self.assertContains(response,
-                            'You have no permission to delete another user.')
-        self.assertIn(other_user, User.objects.all())
-        # Delete while logged in
-        response = self.client.post(
+        self.client.post(
             reverse_lazy(
                 'delete_user',
                 kwargs={'pk': user.id}
