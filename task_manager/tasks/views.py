@@ -14,35 +14,34 @@ from .forms import TaskForm
 from .filters import TaskFilter
 
 
-# Create your views here.
-class TasksView(LoginCheckMixin, FilterView):
-    template_name = 'tasks/index.html'
+class TaskBaseView(LoginCheckMixin):
+    template_name = 'tasks/detail.html'
     model = Task
+    context_object_name = 'task'
+
+
+class TasksView(TaskBaseView, FilterView):
     filterset_class = TaskFilter
-    context_object_name = 'tasks'
     extra_context = {
         'title': _('Tasks'),
         'button_text': _('Show')
     }
 
 
-class DetailTaskView(LoginCheckMixin, DetailView):
-    template_name = 'tasks/detail.html'
-    model = Task
-    context_object_name = 'task'
+class DetailTaskView(TaskBaseView, DetailView):
     extra_context = {
         'title': _('Task preview')
     }
 
 
-class CreateTaskView(
-        LoginCheckMixin,
-        SuccessMessageMixin,
-        CreateView):
+class TaskFormBaseView(LoginCheckMixin, SuccessMessageMixin):
     form_class = TaskForm
     model = Task
     template_name = 'form.html'
     success_url = reverse_lazy('tasks')
+
+
+class CreateTaskView(TaskFormBaseView, CreateView):
     success_message = _('Task has been created successfully.')
     extra_context = {
         'title': _('Create task'),
@@ -56,14 +55,9 @@ class CreateTaskView(
 
 
 class UpdateTaskView(
-        LoginCheckMixin,
-        SuccessMessageMixin,
+        TaskFormBaseView,
         AccessOnlyByCreatorMixin,
         UpdateView):
-    template_name = 'form.html'
-    form_class = TaskForm
-    model = Task
-    success_url = reverse_lazy('tasks')
     success_message = _('Task has been edited successfully.')
     extra_context = {
         'title': _('Edit task'),

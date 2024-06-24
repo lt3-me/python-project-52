@@ -6,7 +6,6 @@ from task_manager.mixins import LoginCheckMixin, DeleteProtectionMessageMixin
 from django.contrib.messages.views import SuccessMessageMixin
 
 
-# Create your views here.
 class StatusesView(LoginCheckMixin, ListView):
     template_name = 'statuses/index.html'
     model = Status
@@ -16,14 +15,14 @@ class StatusesView(LoginCheckMixin, ListView):
     }
 
 
-class CreateStatusView(
-        LoginCheckMixin,
-        SuccessMessageMixin,
-        CreateView):
+class StatusFormBaseView(LoginCheckMixin, SuccessMessageMixin):
     fields = ('name',)
     model = Status
     template_name = 'form.html'
     success_url = reverse_lazy('statuses')
+
+
+class CreateStatusView(StatusFormBaseView, CreateView):
     success_message = _('Status has been created successfully.')
     extra_context = {
         'title': _('Create status'),
@@ -36,14 +35,7 @@ class CreateStatusView(
         return form
 
 
-class UpdateStatusView(
-        LoginCheckMixin,
-        SuccessMessageMixin,
-        UpdateView):
-    fields = ('name',)
-    model = Status
-    template_name = 'form.html'
-    success_url = reverse_lazy('statuses')
+class UpdateStatusView(StatusFormBaseView, UpdateView):
     success_message = _('Status has been edited successfully.')
     extra_context = {
         'title': _('Edit status'),
