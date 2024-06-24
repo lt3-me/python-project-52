@@ -32,7 +32,7 @@ class FilterTasksTest(TestCase):
             reverse_lazy('tasks'),
             data={'executor': self.user.id}
         )
-        pattern = re.compile(f'<tr>.*?{self.user.username}.*?</tr>', re.DOTALL)
+        pattern = re.compile(f'<tr>.*?{self.user}.*?</tr>', re.DOTALL)
         status_count = len(pattern.findall(response.content.decode('utf-8')))
         amount_expected = len(self.user.executed_tasks.all())
         self.assertEqual(status_count, amount_expected)
@@ -55,7 +55,7 @@ class FilterTasksTest(TestCase):
             reverse_lazy('tasks'),
             data={'current_user_tasks': 'on'}
         )
-        pattern = re.compile(f'<tr>.*?{self.user.username}.*?</tr>', re.DOTALL)
+        pattern = re.compile(f'<tr>.*?{self.user}.*?</tr>', re.DOTALL)
         status_count = len(pattern.findall(response.content.decode('utf-8')))
         amount_expected = len(self.user.created_tasks.all())
         self.assertEqual(status_count, amount_expected)
@@ -74,8 +74,8 @@ class FilterTasksTest(TestCase):
         pattern = re.compile(
             f'<tr>.*?{self.task.name}'
             f'.*?{self.task.status.name}'
-            f'.*?{self.user.username}'
-            f'.*?{self.task.executor.username}'
+            f'.*?{self.user}'
+            f'.*?{self.task.executor}'
             r'.*?</tr>',
             re.DOTALL
         )
