@@ -47,7 +47,7 @@ Ensure you have the following installed on your system:
 - [Poetry](https://python-poetry.org/docs/#installation) (a dependency management tool for Python)
 - [PostgreSQL](https://www.postgresql.org/download/) *(optional)*
 
->*Alternatively you can use SQLite database by setting `DATABASE_URL = sqlite:///db.sqlite3` in .env file.*
+>*Alternatively, you can use SQLite database by setting `DATABASE_URL = sqlite:///db.sqlite3` in .env file.*
 
 ### Steps
 
@@ -99,15 +99,15 @@ LANGUAGE= 'en' # project locale (optional)
 ROLLBAR_TOKEN = '...' # rollbar token for errors tracking (optional)
 ```
 
-6. **Run the Application**
+## Running the Application
 
-Start the application with the appropriate command:
+You can start the application with the appropriate command using Gunicorn WSGI:
 
 ```bash
-make start # starts the server using gunicorn
+make start
 ```
 
-Alternatively you can start the app using standard Django dev server.
+Alternatively, you can start the app using standard Django development server:
 
 ```bash
 make dev
