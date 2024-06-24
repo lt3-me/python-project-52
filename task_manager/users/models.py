@@ -16,7 +16,7 @@ class User(AbstractUser):
         return self.first_name
 
     def __str__(self):
-        return self.username
+        return self.get_full_name()
 
     class Meta:
         db_table = 'users'
