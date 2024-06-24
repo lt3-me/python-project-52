@@ -92,11 +92,11 @@ To track errors you simply need to add an access your Project Access Token for p
 Create .env file in the root folder and add following variables:
 
 ```bash
-DATABASE_URL = 'postgresql://...' # url of your database
+**DATABASE_URL** = 'postgresql://...' # url of your database
 # (if you don't want to use PostgreSQL, just use 'sqlite:///db.sqlite3')
-SECRET_KEY= '...' # your secret key
-LANGUAGE= 'en' # project locale (optional)
-ROLLBAR_TOKEN = '...' # rollbar token for errors tracking (optional)
+**SECRET_KEY** = '...' # your secret key
+**LANGUAGE** = 'en' # project locale (optional)
+**ROLLBAR_TOKEN** = '...' # rollbar token for errors tracking (optional)
 ```
 
 ## Running the Application
