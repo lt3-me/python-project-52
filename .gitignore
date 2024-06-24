@@ -4,4 +4,3 @@ dist/
 .coverage
 coverage.xml
 .env
-**/migrations
