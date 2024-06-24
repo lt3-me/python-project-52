@@ -14,13 +14,10 @@ from .forms import TaskForm
 from .filters import TaskFilter
 
 
-class TaskBaseView(LoginCheckMixin):
-    template_name = 'tasks/detail.html'
+class TasksView(LoginCheckMixin, FilterView):
     model = Task
     context_object_name = 'task'
-
-
-class TasksView(TaskBaseView, FilterView):
+    template_name = 'tasks/index.html'
     filterset_class = TaskFilter
     extra_context = {
         'title': _('Tasks'),
@@ -28,7 +25,10 @@ class TasksView(TaskBaseView, FilterView):
     }
 
 
-class DetailTaskView(TaskBaseView, DetailView):
+class DetailTaskView(LoginCheckMixin, DetailView):
+    model = Task
+    context_object_name = 'task'
+    template_name = 'tasks/detail.html'
     extra_context = {
         'title': _('Task preview')
     }
