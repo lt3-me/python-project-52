@@ -6,7 +6,6 @@ from task_manager.mixins import LoginCheckMixin, DeleteProtectionMessageMixin
 from django.contrib.messages.views import SuccessMessageMixin
 
 
-# Create your views here.
 class LabelsView(LoginCheckMixin, ListView):
     template_name = 'labels/index.html'
     model = Label
@@ -16,19 +15,12 @@ class LabelsView(LoginCheckMixin, ListView):
     }
 
 
-class CreateLabelView(
-        LoginCheckMixin,
-        SuccessMessageMixin,
-        CreateView):
-    fields = ('name',)
+class LabelFormBaseView(LoginCheckMixin, SuccessMessageMixin):
     model = Label
+    fields = ('name',)
     template_name = 'form.html'
     success_url = reverse_lazy('labels')
-    success_message = _('Label has been created successfully.')
-    extra_context = {
-        'title': _('Create label'),
-        'button_text': _('Create')
-    }
+    extra_context = {}
 
     def get_form(self, form_class=None):
         form = super().get_form(form_class)
@@ -36,14 +28,15 @@ class CreateLabelView(
         return form
 
 
-class UpdateLabelView(
-        LoginCheckMixin,
-        SuccessMessageMixin,
-        UpdateView):
-    fields = ('name',)
-    model = Label
-    template_name = 'form.html'
-    success_url = reverse_lazy('labels')
+class CreateLabelView(LabelFormBaseView, CreateView):
+    success_message = _('Label has been created successfully.')
+    extra_context = {
+        'title': _('Create label'),
+        'button_text': _('Create')
+    }
+
+
+class UpdateLabelView(LabelFormBaseView, UpdateView):
     success_message = _('Label has been edited successfully.')
     extra_context = {
         'title': _('Edit label'),
