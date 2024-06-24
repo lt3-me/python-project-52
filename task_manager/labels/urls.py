@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import LabelsView, CreateLabelView, \
-                    UpdateLabelView, DeleteLabelView
+                   UpdateLabelView, DeleteLabelView
 
 
 urlpatterns = [

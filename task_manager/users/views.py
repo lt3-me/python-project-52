@@ -1,8 +1,11 @@
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from task_manager.users.models import User
 from task_manager.users.forms import UserDataForm
-from task_manager.mixins import LoginCheckMixin, UserCheckMixin, \
-                                DeleteProtectionMessageMixin
+from task_manager.mixins import (
+    LoginCheckMixin,
+    UserCheckMixin,
+    DeleteProtectionMessageMixin,
+)
 from django.contrib.messages.views import SuccessMessageMixin
 from django.utils.translation import gettext_lazy as _
 from django.urls import reverse_lazy

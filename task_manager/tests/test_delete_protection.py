@@ -27,8 +27,7 @@ class ActiveTaskProtectionTest(TestCase):
         self.assertRedirects(response, reverse_lazy('users'))
         self.assertContains(
             response,
-            'You cannot delete a user who is currently being used.'
-            )
+            'You cannot delete a user who is currently being used.')
         self.assertIn(self.user, User.objects.all())
 
     @override('en')
@@ -43,8 +42,7 @@ class ActiveTaskProtectionTest(TestCase):
         self.assertRedirects(response, reverse_lazy('users'))
         self.assertContains(
             response,
-            'You cannot delete a user who is currently being used.'
-            )
+            'You cannot delete a user who is currently being used.')
         self.assertIn(self.task.executor, User.objects.all())
 
     @override('en')
@@ -59,8 +57,7 @@ class ActiveTaskProtectionTest(TestCase):
         self.assertRedirects(response, reverse_lazy('statuses'))
         self.assertContains(
             response,
-            'You cannot delete a status which is currently being used.'
-            )
+            'You cannot delete a status which is currently being used.')
         self.assertIn(self.task.status, Status.objects.all())
 
     @override('en')
@@ -76,8 +73,7 @@ class ActiveTaskProtectionTest(TestCase):
         self.assertRedirects(response, reverse_lazy('labels'))
         self.assertContains(
             response,
-            'You cannot delete a label which is currently being used.'
-            )
+            'You cannot delete a label which is currently being used.')
         self.assertIn(task_label, Label.objects.all())
 
 
