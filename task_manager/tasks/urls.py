@@ -1,7 +1,11 @@
 from django.urls import path
-from .views import TasksView, DetailTaskView, CreateTaskView, \
-                   UpdateTaskView, DeleteTaskView
-
+from .views import (
+    TasksView,
+    DetailTaskView,
+    CreateTaskView,
+    UpdateTaskView,
+    DeleteTaskView,
+)
 
 urlpatterns = [
     path('', TasksView.as_view(), name='tasks'),
