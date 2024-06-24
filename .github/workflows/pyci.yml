@@ -26,7 +26,6 @@ jobs:
 
       - name: Run linter and unittest
         env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
           SECRET_KEY: ${{ secrets.SECRET_KEY }}
         run: |
           make check
