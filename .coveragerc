@@ -1,0 +1,8 @@
+[run]
+branch = True
+source = task_manager
+
+[report]
+omit =
+    */tests/*
+    */migrations/*
