@@ -16,7 +16,7 @@ from .filters import TaskFilter
 
 class TasksView(LoginCheckMixin, FilterView):
     model = Task
-    context_object_name = 'task'
+    context_object_name = 'tasks'
     template_name = 'tasks/index.html'
     filterset_class = TaskFilter
     extra_context = {
