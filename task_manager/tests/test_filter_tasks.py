@@ -43,7 +43,6 @@ class FilterTasksTest(TestCase):
             reverse_lazy('tasks'),
             data={'labels': self.label.id}
         )
-        print(response.content.decode('utf-8'))
         pattern = re.compile('<tr>.*?<td.*?</tr>', re.DOTALL)
         status_count = len(pattern.findall(response.content.decode('utf-8')))
         amount_expected = len(self.label.tasks.all())
