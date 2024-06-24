@@ -17,7 +17,6 @@ class AccessTest(TestCase):
     def test_access_not_logged_in(self):
         for url_name in URL_NAMES:
             response = self.client.get(reverse_lazy(url_name), follow=True)
-            print(response.content)
             self.assertRedirects(response, reverse_lazy('login'))
             self.assertContains(response,
                                 'You are not logged in! Please log in.')
