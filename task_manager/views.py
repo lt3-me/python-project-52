@@ -16,6 +16,12 @@ class UserLoginView(SuccessMessageMixin, LoginView):
         'button_text': _('Log Me In'),
     }
 
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        form.fields['username'].label = _('Username')
+        form.fields['password'].label = _('Password')
+        return form
+
 
 class UserLogoutView(LogoutView):
     next_page = reverse_lazy('index')
