@@ -2,8 +2,7 @@ import json
 import os
 
 from django.urls import reverse_lazy
-from django.test import TestCase
-from django.utils.translation import override
+from django.test import TestCase, override_settings
 
 from task_manager.users.models import User
 
@@ -15,6 +14,7 @@ TESTUSER = json.load(open(os.path.join(FIXTURES_DIR_PATH, 'user.json')))
 USER_EDIT = json.load(open(os.path.join(FIXTURES_DIR_PATH, 'user_edit.json')))
 
 
+@override_settings(LANGUAGE_CODE='en')
 class CRUDTest(TestCase):
     def test_user_create(self):
         response = self.client.get(reverse_lazy('create_user'))
@@ -35,7 +35,6 @@ class CRUDTest(TestCase):
         self.assertContains(response, TESTUSER.get('first_name'))
         self.assertContains(response, TESTUSER.get('last_name'))
 
-    @override('en')
     def test_user_update(self):
         user = User.objects.create_user(TESTUSER)
         self.client.force_login(user=user)
@@ -50,7 +49,6 @@ class CRUDTest(TestCase):
         self.assertEqual(user.first_name, USER_EDIT.get('first_name'))
         self.assertEqual(user.last_name, USER_EDIT.get('last_name'))
 
-    @override('en')
     def test_user_delete(self):
         user = User.objects.create_user(TESTUSER)
         self.client.force_login(user=user)

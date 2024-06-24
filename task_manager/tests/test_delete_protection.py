@@ -1,6 +1,5 @@
 from django.urls import reverse_lazy
-from django.test import TestCase
-from django.utils.translation import override
+from django.test import TestCase, override_settings
 
 from task_manager.users.models import User
 from task_manager.tasks.models import Task
@@ -8,6 +7,7 @@ from task_manager.statuses.models import Status
 from task_manager.labels.models import Label
 
 
+@override_settings(LANGUAGE_CODE='en')
 class ActiveTaskProtectionTest(TestCase):
     fixtures = ['task_manager/tests/fixtures/db_tasks.json']
 
@@ -15,7 +15,6 @@ class ActiveTaskProtectionTest(TestCase):
         self.user = User.objects.get(pk=1)
         self.task = Task.objects.get(pk=1)
 
-    @override('en')
     def test_delete_task_creator(self):
         self.client.force_login(user=self.user)
         response = self.client.post(
@@ -30,7 +29,6 @@ class ActiveTaskProtectionTest(TestCase):
             'You cannot delete a user who is currently being used.')
         self.assertIn(self.user, User.objects.all())
 
-    @override('en')
     def test_delete_task_executor(self):
         self.client.force_login(user=self.task.executor)
         response = self.client.post(
@@ -45,7 +43,6 @@ class ActiveTaskProtectionTest(TestCase):
             'You cannot delete a user who is currently being used.')
         self.assertIn(self.task.executor, User.objects.all())
 
-    @override('en')
     def test_delete_status_related_to_task(self):
         self.client.force_login(user=self.user)
         response = self.client.post(
@@ -60,7 +57,6 @@ class ActiveTaskProtectionTest(TestCase):
             'You cannot delete a status which is currently being used.')
         self.assertIn(self.task.status, Status.objects.all())
 
-    @override('en')
     def test_delete_label_related_to_task(self):
         self.client.force_login(user=self.user)
         task_label = self.task.labels.all()[0]
@@ -77,6 +73,7 @@ class ActiveTaskProtectionTest(TestCase):
         self.assertIn(task_label, Label.objects.all())
 
 
+@override_settings(LANGUAGE_CODE='en')
 class UserProtectionTest(TestCase):
     fixtures = ['task_manager/tests/fixtures/db_tasks.json']
 
@@ -85,7 +82,6 @@ class UserProtectionTest(TestCase):
         self.another_user = User.objects.get(pk=2)
         self.client.force_login(user=self.user)
 
-    @override('en')
     def test_delete_another_user(self):
         response = self.client.post(
             reverse_lazy(
@@ -98,7 +94,6 @@ class UserProtectionTest(TestCase):
                             'You have no permission to delete another user.')
         self.assertIn(self.another_user, User.objects.all())
 
-    @override('en')
     def test_update_another_user(self):
         response = self.client.post(
             reverse_lazy(
