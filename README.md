@@ -56,7 +56,7 @@ Ensure you have the following installed on your system:
 Open your terminal and run the following command to clone the repository:
 
 ```bash
-git clone https://github.com/lt3-me/python-project-52
+>> git clone https://github.com/lt3-me/python-project-52
 ```
 
 2. **Navigate to the Project Directory**
@@ -64,7 +64,7 @@ git clone https://github.com/lt3-me/python-project-52
 Change into the project directory:
 
 ```bash
-cd python-project-52
+>> cd python-project-52
 ```
 
 3. **Install Dependencies**
@@ -72,13 +72,13 @@ cd python-project-52
 Run the following command to install all necessary dependencies using Poetry:
 
 ```bash
-poetry install
+>> poetry install
 ```
 
 Or using Makefile:
 
 ```bash
-make build
+>> make build
 ```
 
 4. **Get Rollbar Token (optional)**
@@ -104,11 +104,11 @@ ROLLBAR_TOKEN = '...' # rollbar token for errors tracking (optional)
 You can start the application with the appropriate command using Gunicorn WSGI:
 
 ```bash
-make start
+>> make start
 ```
 
 Alternatively, you can start the app using standard Django development server:
 
 ```bash
-make dev
+>> make dev
 ```
