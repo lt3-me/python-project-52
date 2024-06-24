@@ -34,6 +34,3 @@ start:
 check:
 	make lint
 	make test
-
-test-coverage:
-	poetry run python3 -m pytest --cov=task_manager --cov-report=xml
