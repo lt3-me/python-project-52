@@ -134,7 +134,7 @@ files = [
 name = "codeclimate-test-reporter"
 version = "0.2.3"
 description = "Report test coverage to Code Climate"
-category = "main"
+category = "dev"
 optional = false
 python-versions = "*"
 files = [
@@ -161,7 +161,7 @@ files = [
 name = "coverage"
 version = "7.5.4"
 description = "Code coverage measurement for Python"
-category = "main"
+category = "dev"
 optional = false
 python-versions = ">=3.8"
 files = [
@@ -695,4 +695,4 @@ zstd = ["zstandard (>=0.18.0)"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "07e47b31e170b29e0b23513992c1ce8ab00ab1fe90ea2edcecbcf16df5655be1"
+content-hash = "18fd9de55779137ddceea41a38ca86cb01a976f27b3c8938e5bd2ce8dceb0282"
