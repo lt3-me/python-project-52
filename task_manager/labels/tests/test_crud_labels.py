@@ -1,58 +1,48 @@
-import json
-import os
-
 from django.urls import reverse_lazy
-from django.test import TestCase
+from task_manager.tests.base import BaseTestCase
 
 from task_manager.users.models import User
 from task_manager.labels.models import Label
 
-FIXTURES_DIR_PATH = os.path.join(
-    os.path.dirname(os.path.abspath(__file__)), 'fixtures'
-)
-TESTUSER = json.load(open(os.path.join(
-    FIXTURES_DIR_PATH, 'user.json')))
-LABEL = json.load(open(os.path.join(
-    FIXTURES_DIR_PATH, 'label.json')))
-LABEL_EDIT = json.load(open(os.path.join(
-    FIXTURES_DIR_PATH, 'label_edit.json')))
 
-
-class CRUDTest(TestCase):
+class CRUDTest(BaseTestCase):
     def setUp(self):
-        user = User.objects.create_user(TESTUSER)
+        testuser = self.load_fixture('user.json')
+        user = User.objects.create_user(testuser)
         self.client.force_login(user=user)
+        self.label = self.load_fixture('label.json')
 
     def test_label_create(self):
         response = self.client.get(reverse_lazy('create_status'))
         self.assertEqual(response.status_code, 200)
         response = self.client.post(
-            reverse_lazy('create_label'), LABEL
+            reverse_lazy('create_label'), self.label
         )
         self.assertRedirects(response, reverse_lazy('labels'))
         last_created = Label.objects.latest('created_at')
-        self.assertEqual(last_created.name, LABEL.get('name'))
+        self.assertEqual(last_created.name, self.label.get('name'))
 
     def test_label_read(self):
-        Label.objects.create(**LABEL)
+        Label.objects.create(**self.label)
         response = self.client.get(reverse_lazy('labels'))
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, LABEL.get('name'))
+        self.assertContains(response, self.label.get('name'))
 
     def test_label_update(self):
-        label = Label.objects.create(**LABEL)
+        label_edit = self.load_fixture('label_edit.json')
+        label = Label.objects.create(**self.label)
         response = self.client.post(
             reverse_lazy(
                 'update_label',
                 kwargs={'pk': label.id}
-            ), LABEL_EDIT
+            ), label_edit
         )
         self.assertRedirects(response, reverse_lazy('labels'))
         label = Label.objects.get(pk=label.id)
-        self.assertEqual(label.name, LABEL_EDIT.get('name'))
+        self.assertEqual(label.name, label_edit.get('name'))
 
     def test_label_delete(self):
-        label = Label.objects.create(**LABEL)
+        label = Label.objects.create(**self.label)
         response = self.client.post(
             reverse_lazy(
                 'delete_label',

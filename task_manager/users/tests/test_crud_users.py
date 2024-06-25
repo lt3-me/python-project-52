@@ -1,56 +1,54 @@
-import json
-import os
-
 from django.urls import reverse_lazy
-from django.test import TestCase, override_settings
+from django.test import override_settings
 
+from task_manager.tests.base import BaseTestCase
 from task_manager.users.models import User
 
 
-FIXTURES_DIR_PATH = os.path.join(
-    os.path.dirname(os.path.abspath(__file__)), 'fixtures'
-)
-TESTUSER = json.load(open(os.path.join(FIXTURES_DIR_PATH, 'user.json')))
-USER_EDIT = json.load(open(os.path.join(FIXTURES_DIR_PATH, 'user_edit.json')))
-
-
 @override_settings(LANGUAGE_CODE='en')
-class CRUDTest(TestCase):
+class CRUDTest(BaseTestCase):
+    def setUp(self):
+        self.testuser = self.load_fixture('user.json')
+
     def test_user_create(self):
         response = self.client.get(reverse_lazy('create_user'))
         self.assertEqual(response.status_code, 200)
         response = self.client.post(
             reverse_lazy('create_user'),
-            TESTUSER
+            self.testuser
         )
         self.assertRedirects(response, reverse_lazy('login'))
         user = User.objects.latest('date_joined')
-        self.assertEqual(user.username, TESTUSER.get('username'))
+        self.assertEqual(user.username, self.testuser.get('username'))
+
+    def test_user_create_same_username(self):
+        pass
 
     def test_user_read(self):
-        User.objects.create_user(TESTUSER)
+        User.objects.create_user(self.testuser)
         response = self.client.get(reverse_lazy('users'))
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, TESTUSER.get('username'))
-        self.assertContains(response, TESTUSER.get('first_name'))
-        self.assertContains(response, TESTUSER.get('last_name'))
+        self.assertContains(response, self.testuser.get('username'))
+        self.assertContains(response, self.testuser.get('first_name'))
+        self.assertContains(response, self.testuser.get('last_name'))
 
     def test_user_update(self):
-        user = User.objects.create_user(TESTUSER)
+        user_edit = self.load_fixture('user_edit.json')
+        user = User.objects.create_user(self.testuser)
         self.client.force_login(user=user)
         response = self.client.post(
             reverse_lazy(
                 'update_user',
                 kwargs={'pk': user.id}
-            ), USER_EDIT
+            ), user_edit
         )
         self.assertRedirects(response, reverse_lazy('users'))
         user = User.objects.get(pk=user.id)
-        self.assertEqual(user.first_name, USER_EDIT.get('first_name'))
-        self.assertEqual(user.last_name, USER_EDIT.get('last_name'))
+        self.assertEqual(user.first_name, user_edit.get('first_name'))
+        self.assertEqual(user.last_name, user_edit.get('last_name'))
 
     def test_user_delete(self):
-        user = User.objects.create_user(TESTUSER)
+        user = User.objects.create_user(self.testuser)
         self.client.force_login(user=user)
         self.client.post(
             reverse_lazy(

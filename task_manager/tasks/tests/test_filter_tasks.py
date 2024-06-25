@@ -1,7 +1,7 @@
 import re
 
 from django.urls import reverse_lazy
-from django.test import TestCase
+from task_manager.tests.base import BaseTestCase
 
 from task_manager.users.models import User
 from task_manager.tasks.models import Task
@@ -9,7 +9,7 @@ from task_manager.statuses.models import Status
 from task_manager.labels.models import Label
 
 
-class FilterTasksTest(TestCase):
+class FilterTasksTest(BaseTestCase):
     fixtures = ['task_manager/tests/fixtures/db_tasks.json']
 
     def setUp(self):

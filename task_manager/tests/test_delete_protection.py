@@ -1,6 +1,7 @@
 from django.urls import reverse_lazy
-from django.test import TestCase, override_settings
+from django.test import override_settings
 
+from task_manager.tests.base import BaseTestCase
 from task_manager.users.models import User
 from task_manager.tasks.models import Task
 from task_manager.statuses.models import Status
@@ -8,7 +9,7 @@ from task_manager.labels.models import Label
 
 
 @override_settings(LANGUAGE_CODE='en')
-class ActiveTaskProtectionTest(TestCase):
+class ActiveTaskProtectionTest(BaseTestCase):
     fixtures = ['task_manager/tests/fixtures/db_tasks.json']
 
     def setUp(self):
@@ -74,7 +75,7 @@ class ActiveTaskProtectionTest(TestCase):
 
 
 @override_settings(LANGUAGE_CODE='en')
-class UserProtectionTest(TestCase):
+class UserProtectionTest(BaseTestCase):
     fixtures = ['task_manager/tests/fixtures/db_tasks.json']
 
     def setUp(self):
