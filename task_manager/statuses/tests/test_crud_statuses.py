@@ -7,8 +7,7 @@ from task_manager.statuses.models import Status
 
 class CRUDTest(BaseTestCase):
     def setUp(self):
-        testuser = self.load_fixture('user.json')
-        user = User.objects.create_user(testuser)
+        user = User.objects.create_user('test_username')
         self.client.force_login(user=user)
         self.status = self.load_fixture('status.json')
 

@@ -7,8 +7,7 @@ from task_manager.labels.models import Label
 
 class CRUDTest(BaseTestCase):
     def setUp(self):
-        testuser = self.load_fixture('user.json')
-        user = User.objects.create_user(testuser)
+        user = User.objects.create_user('test_username')
         self.client.force_login(user=user)
         self.label = self.load_fixture('label.json')
 
