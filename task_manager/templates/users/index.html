@@ -21,7 +21,7 @@
       <td class="col-1 bg-light border">{{ user.id }}</td>
       <td class="col-3">{{ user.username }}</td>
       <td class="col-5 border">{{ user.get_full_name }}</td>
-      <td class="col-2">{{ user.created_at|date:'d.m.Y H:m' }}</td>
+      <td class="col-2">{{ user.date_joined|date:'d.m.Y H:m' }}</td>
       <td class="bg-light text-center col-1 border">
         <a href="{% url 'update_user' user.id %}">{% trans "Edit"%}</a>
         <br>

@@ -24,7 +24,7 @@ class CRUDTest(TestCase):
             TESTUSER
         )
         self.assertRedirects(response, reverse_lazy('login'))
-        user = User.objects.latest('created_at')
+        user = User.objects.latest('date_joined')
         self.assertEqual(user.username, TESTUSER.get('username'))
 
     def test_user_read(self):

@@ -30,7 +30,7 @@
             "username": "JohnPork320",
             "first_name": "John",
             "last_name": "Pork",
-            "created_at": "2024-01-01T00:00:00Z",
+            "date_joined": "2024-01-01T00:00:00Z",
             "password": "pbkdf2_sha256$testpassword"
         }
     },
@@ -41,7 +41,7 @@
             "username": "coolscooter",
             "first_name": "Tomoko",
             "last_name": "Kuroki",
-            "created_at": "2024-01-01T00:00:00Z",
+            "date_joined": "2024-01-01T00:00:00Z",
             "password": "pbkdf2_sha256$testpassword"
         }
     },
