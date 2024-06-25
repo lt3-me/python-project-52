@@ -13,9 +13,11 @@ class CRUDTest(BaseTestCase):
         self.assertEqual(response.status_code, 200)
         response = self.client.post(
             reverse_lazy('create_user'),
-            testuser
+            testuser, follow=True
         )
         self.assertRedirects(response, reverse_lazy('login'))
+        self.assertContains(
+            response, 'You have been signed up successfully.')
         user = User.objects.latest('date_joined')
         self.assertEqual(user.username, testuser.get('username'))
 
@@ -74,9 +76,11 @@ It must contain at least 3 characters.")
             reverse_lazy(
                 'update_user',
                 kwargs={'pk': user.id}
-            ), user_edit
+            ), user_edit, follow=True
         )
         self.assertRedirects(response, reverse_lazy('users'))
+        self.assertContains(
+            response, 'User has been successfully updated.')
         user = User.objects.get(pk=user.id)
         self.assertEqual(user.first_name, user_edit.get('first_name'))
         self.assertEqual(user.last_name, user_edit.get('last_name'))
@@ -95,13 +99,31 @@ It must contain at least 3 characters.")
         self.assertContains(
             response, "A user with that username already exists.")
 
+    def test_user_update_with_null(self):
+        user_edit = self.load_fixture('user_null_values.json')
+        user = User.objects.create_user('testuser')
+        self.client.force_login(user=user)
+        response = self.client.post(
+            reverse_lazy(
+                'update_user',
+                kwargs={'pk': user.id}
+            ), user_edit, follow=True
+        )
+        self.assertContains(
+            response,
+            "This field is required.",
+            count=3)
+
     def test_user_delete(self):
         user = User.objects.create_user('testuser')
         self.client.force_login(user=user)
-        self.client.post(
+        response = self.client.post(
             reverse_lazy(
                 'delete_user',
                 kwargs={'pk': user.id}
-            )
+            ), follow=True
         )
+        self.assertRedirects(response, reverse_lazy('users'))
+        self.assertContains(
+            response, "User has been successfully deleted")
         self.assertNotIn(user, User.objects.all())
