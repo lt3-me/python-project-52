@@ -56,7 +56,6 @@ class CreateTaskView(TaskFormBaseView, CreateView):
 
 class UpdateTaskView(
         TaskFormBaseView,
-        AccessOnlyByCreatorMixin,
         UpdateView):
     success_message = _('Task has been edited successfully.')
     extra_context = {
@@ -72,11 +71,15 @@ class DeleteTaskView(
         DeleteView):
     template_name = 'delete.html'
     model = Task
-    success_url = reverse_lazy('tasks')
     success_message = _('Task has been successfully deleted.')
-    author_message = _('Task can be deleted only by the creator.')
-    author_url = reverse_lazy('tasks')
+    permission_message = _('Task can be deleted only by the creator.')
+    permission_url = success_url = reverse_lazy('tasks')
     extra_context = {
         'title': _('Delete task'),
         'button_text': _('Yes, delete'),
     }
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['deleted_name'] = self.object.name
+        return context
