@@ -1,12 +1,11 @@
 from django.urls import reverse_lazy
-from django.test import override_settings
+from django.utils.translation import gettext_lazy as _
 
 from task_manager.tests.base import BaseTestCase
 from task_manager.users.models import User
 from task_manager.tasks.models import Task
 
 
-@override_settings(LANGUAGE_CODE='en')
 class UserProtectionTest(BaseTestCase):
     fixtures = ['task_manager/tests/fixtures/db_tasks.json']
 
@@ -24,7 +23,7 @@ class UserProtectionTest(BaseTestCase):
         )
         self.assertRedirects(response, reverse_lazy('users'))
         self.assertContains(response,
-                            'You have no permission to delete another user.')
+                            _('You have no permission to delete another user.'))
         self.assertIn(self.another_user, User.objects.all())
 
     def test_update_another_user(self):
@@ -36,12 +35,11 @@ class UserProtectionTest(BaseTestCase):
         )
         self.assertRedirects(response, reverse_lazy('users'))
         self.assertContains(response,
-                            'You have no permission to edit another user.')
+                            _('You have no permission to edit another user.'))
         same_other_user = User.objects.get(pk=self.another_user.id)
         self.assertEqual(self.another_user, same_other_user)
 
 
-@override_settings(LANGUAGE_CODE='en')
 class ActiveTaskProtectionTest(BaseTestCase):
     fixtures = ['task_manager/tests/fixtures/db_tasks.json']
 
@@ -60,7 +58,7 @@ class ActiveTaskProtectionTest(BaseTestCase):
         self.assertRedirects(response, reverse_lazy('users'))
         self.assertContains(
             response,
-            'You cannot delete a user who is currently being used.')
+            _('You cannot delete a user who is currently being used.'))
         self.assertIn(self.user, User.objects.all())
 
     def test_delete_task_executor(self):
@@ -74,5 +72,5 @@ class ActiveTaskProtectionTest(BaseTestCase):
         self.assertRedirects(response, reverse_lazy('users'))
         self.assertContains(
             response,
-            'You cannot delete a user who is currently being used.')
+            _('You cannot delete a user who is currently being used.'))
         self.assertIn(self.task.executor, User.objects.all())
