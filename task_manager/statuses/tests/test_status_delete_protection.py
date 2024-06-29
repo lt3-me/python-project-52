@@ -16,14 +16,15 @@ class ActiveTaskProtectionTest(BaseTestCase):
 
     def test_delete_status_related_to_task(self):
         self.client.force_login(user=self.user)
+        id = self.task.status.id
         response = self.client.post(
             reverse_lazy(
                 'delete_status',
-                kwargs={'pk': self.task.status.id}
+                kwargs={'pk': id}
             ), follow=True
         )
         self.assertRedirects(response, reverse_lazy('statuses'))
         self.assertContains(
             response,
             _('You cannot delete a status which is currently being used.'))
-        self.assertIn(self.task.status, Status.objects.all())
+        self.assertTrue(Status.objects.filter(id=id).exists())

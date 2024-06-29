@@ -17,14 +17,15 @@ class ActiveTaskProtectionTest(BaseTestCase):
     def test_delete_label_related_to_task(self):
         self.client.force_login(user=self.user)
         task_label = self.task.labels.all()[0]
+        id = task_label.id
         response = self.client.post(
             reverse_lazy(
                 'delete_label',
-                kwargs={'pk': task_label.id}
+                kwargs={'pk': id}
             ), follow=True
         )
         self.assertRedirects(response, reverse_lazy('labels'))
         self.assertContains(
             response,
             _('You cannot delete a label which is currently being used.'))
-        self.assertIn(task_label, Label.objects.all())
+        self.assertTrue(Label.objects.filter(id=id).exists())
