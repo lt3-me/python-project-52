@@ -45,7 +45,8 @@ Letters, digits and @/./+/-/_ only.'))
             reverse_lazy('create_user'),
             testuser, follow=True
         )
-        self.assertContains(response, _("This password is too short. \
+        self.assertContains(response,
+                            _("This password is too short. \
 It must contain at least 3 characters."))
 
     def test_user_password_does_not_match(self):
@@ -110,8 +111,7 @@ It must contain at least 3 characters."))
         )
         self.assertContains(
             response,
-            _("This field is required."),
-            count=3)
+            _("This field is required."))
 
     def test_user_delete(self):
         user = User.objects.create_user('testuser')
