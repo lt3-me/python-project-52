@@ -14,4 +14,6 @@ class BaseTestCase(TestCase):
 
     @classmethod
     def load_fixture(cls, fixture_name):
-        return json.load(open(cls.get_fixture_path(fixture_name)))
+        fixture_path = cls.get_fixture_path(fixture_name)
+        with open(fixture_path, 'r') as file:
+            return json.load(file)
