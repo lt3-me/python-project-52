@@ -46,10 +46,6 @@ class Task(models.Model):
     def __str__(self):
         return self.name
 
-    class Meta:
-        db_table = 'tasks'
-        app_label = 'tasks'
-
 
 class TaskLabelManyToMany(models.Model):
     task = models.ForeignKey(Task, on_delete=models.CASCADE)
