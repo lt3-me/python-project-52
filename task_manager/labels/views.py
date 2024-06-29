@@ -22,11 +22,6 @@ class LabelFormBaseView(LoginCheckMixin, SuccessMessageMixin):
     success_url = reverse_lazy('labels')
     extra_context = {}
 
-    def get_form(self, form_class=None):
-        form = super().get_form(form_class)
-        form.fields['name'].label = _('Name')
-        return form
-
 
 class CreateLabelView(LabelFormBaseView, CreateView):
     success_message = _('Label has been created successfully.')

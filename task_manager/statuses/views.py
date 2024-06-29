@@ -21,11 +21,6 @@ class StatusFormBaseView(LoginCheckMixin, SuccessMessageMixin):
     template_name = 'form.html'
     success_url = reverse_lazy('statuses')
 
-    def get_form(self, form_class=None):
-        form = super().get_form(form_class)
-        form.fields['name'].label = _('Name')
-        return form
-
 
 class CreateStatusView(StatusFormBaseView, CreateView):
     success_message = _('Status has been created successfully.')
