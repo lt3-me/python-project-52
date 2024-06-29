@@ -14,3 +14,7 @@ class Status(models.Model):
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        db_table = 'statuses'
+        app_label = 'statuses'
