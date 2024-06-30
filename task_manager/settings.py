@@ -27,7 +27,7 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 ROLLBAR_TOKEN = os.getenv('ROLLBAR_TOKEN')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = os.getenv('DEBUG_MODE') == 'True'
 
 ALLOWED_HOSTS = [
     '127.0.0.1', 'localhost', 'task-manager-ubxr.onrender.com', 'webserver']

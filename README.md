@@ -97,6 +97,7 @@ DATABASE_URL = 'postgresql://...' # url of your database
 # (if you don't want to use PostgreSQL, just use 'sqlite:///db.sqlite3')
 ROLLBAR_TOKEN = '...' # rollbar token for errors tracking (optional)
 LANGUAGE = 'en' # project locale (optional)
+DEBUG = 'False' # turn on/off the debug mode (set false for production use)
 ```
 
 ## Running the Application
