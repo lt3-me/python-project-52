@@ -8,7 +8,7 @@ from task_manager.statuses.models import Status
 
 
 class ActiveTaskProtectionTest(BaseTestCase):
-    fixtures = ['task_manager/tests/fixtures/db_tasks.json']
+    fixtures = ['db_tasks.json']
 
     def setUp(self):
         self.user = User.objects.get(pk=1)

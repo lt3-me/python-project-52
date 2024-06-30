@@ -10,7 +10,7 @@ from task_manager.labels.models import Label
 
 
 class FilterTasksTest(BaseTestCase):
-    fixtures = ['task_manager/tests/fixtures/db_tasks.json']
+    fixtures = ['db_tasks.json']
 
     def setUp(self):
         self.user = User.objects.get(pk=1)

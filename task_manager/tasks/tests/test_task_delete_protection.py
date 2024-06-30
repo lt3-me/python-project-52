@@ -7,7 +7,7 @@ from task_manager.tasks.models import Task
 
 
 class DeleteProtectionTest(BaseTestCase):
-    fixtures = ['task_manager/tests/fixtures/db_tasks.json']
+    fixtures = ['db_tasks.json']
 
     def test_delete_task_of_another_user(self):
         new_user = User.objects.create_user('test_username')
