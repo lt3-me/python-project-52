@@ -24,10 +24,10 @@ BASE_DIR = Path(__file__).resolve().parent
 # SECURITY WARNING: keep the secret key used in production secret!
 load_dotenv()
 SECRET_KEY = os.getenv('SECRET_KEY')
-ROLLBAR_TOKEN = os.getenv('ROLLBAR_TOKEN')
+ROLLBAR_TOKEN = os.getenv('ROLLBAR_TOKEN', default=None)
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv('DEBUG_MODE') == 'True'
+DEBUG = os.getenv('DEBUG_MODE', default='False') == 'True'
 
 ALLOWED_HOSTS = [
     '127.0.0.1', 'localhost', 'task-manager-ubxr.onrender.com', 'webserver']
@@ -63,12 +63,13 @@ MIDDLEWARE = [
     'rollbar.contrib.django.middleware.RollbarNotifierMiddleware',
 ]
 
-ROLLBAR = {
-    'access_token': ROLLBAR_TOKEN,
-    'environment': 'development' if DEBUG else 'production',
-    'code_version': '1.0',
-    'root': BASE_DIR,
-}
+if ROLLBAR_TOKEN:
+    ROLLBAR = {
+        'access_token': ROLLBAR_TOKEN,
+        'environment': 'development' if DEBUG else 'production',
+        'code_version': '1.0',
+        'root': BASE_DIR,
+    }
 
 ROOT_URLCONF = 'task_manager.urls'
 
@@ -96,7 +97,7 @@ WSGI_APPLICATION = 'task_manager.wsgi.application'
 
 DATABASES = {
     'default': dj_database_url.config(
-        default=os.getenv('DATABASE_URL'),
+        default=os.getenv('DATABASE_URL', default='sqlite:///db.sqlite3'),
         conn_max_age=600,
         conn_health_checks=True,
     ),
@@ -129,10 +130,7 @@ LOCALE_PATHS = [
     os.path.join(BASE_DIR, 'locale'),
 ]
 
-if os.getenv('LANGUAGE'):
-    LANGUAGE_CODE = os.getenv('LANGUAGE')
-else:
-    LANGUAGE_CODE = 'ru'
+LANGUAGE_CODE = os.getenv('LANGUAGE', default='ru')
 
 USE_I18N = True
 
