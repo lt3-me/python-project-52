@@ -15,15 +15,12 @@ class LabelsView(LoginCheckMixin, ListView):
     }
 
 
-class LabelFormBaseView(LoginCheckMixin, SuccessMessageMixin):
+class CreateLabelView(LoginCheckMixin, SuccessMessageMixin, CreateView):
     model = Label
     fields = ('name',)
     template_name = 'form.html'
     success_url = reverse_lazy('labels')
     extra_context = {}
-
-
-class CreateLabelView(LabelFormBaseView, CreateView):
     success_message = _('Label has been created successfully.')
     extra_context = {
         'title': _('Create label'),
@@ -31,7 +28,12 @@ class CreateLabelView(LabelFormBaseView, CreateView):
     }
 
 
-class UpdateLabelView(LabelFormBaseView, UpdateView):
+class UpdateLabelView(LoginCheckMixin, SuccessMessageMixin, UpdateView):
+    model = Label
+    fields = ('name',)
+    template_name = 'form.html'
+    success_url = reverse_lazy('labels')
+    extra_context = {}
     success_message = _('Label has been edited successfully.')
     extra_context = {
         'title': _('Edit label'),

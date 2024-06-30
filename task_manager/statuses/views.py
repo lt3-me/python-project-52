@@ -15,14 +15,11 @@ class StatusesView(LoginCheckMixin, ListView):
     }
 
 
-class StatusFormBaseView(LoginCheckMixin, SuccessMessageMixin):
+class CreateStatusView(LoginCheckMixin, SuccessMessageMixin, CreateView):
     fields = ('name',)
     model = Status
     template_name = 'form.html'
     success_url = reverse_lazy('statuses')
-
-
-class CreateStatusView(StatusFormBaseView, CreateView):
     success_message = _('Status has been created successfully.')
     extra_context = {
         'title': _('Create status'),
@@ -30,7 +27,11 @@ class CreateStatusView(StatusFormBaseView, CreateView):
     }
 
 
-class UpdateStatusView(StatusFormBaseView, UpdateView):
+class UpdateStatusView(LoginCheckMixin, SuccessMessageMixin, UpdateView):
+    fields = ('name',)
+    model = Status
+    template_name = 'form.html'
+    success_url = reverse_lazy('statuses')
     success_message = _('Status has been edited successfully.')
     extra_context = {
         'title': _('Edit status'),

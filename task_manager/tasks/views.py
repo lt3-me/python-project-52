@@ -34,14 +34,11 @@ class DetailTaskView(LoginCheckMixin, DetailView):
     }
 
 
-class TaskFormBaseView(LoginCheckMixin, SuccessMessageMixin):
+class CreateTaskView(LoginCheckMixin, SuccessMessageMixin, CreateView):
     form_class = TaskForm
     model = Task
     template_name = 'form.html'
     success_url = reverse_lazy('tasks')
-
-
-class CreateTaskView(TaskFormBaseView, CreateView):
     success_message = _('Task has been created successfully.')
     extra_context = {
         'title': _('Create task'),
@@ -54,9 +51,11 @@ class CreateTaskView(TaskFormBaseView, CreateView):
         return super().form_valid(form)
 
 
-class UpdateTaskView(
-        TaskFormBaseView,
-        UpdateView):
+class UpdateTaskView(LoginCheckMixin, SuccessMessageMixin, UpdateView):
+    form_class = TaskForm
+    model = Task
+    template_name = 'form.html'
+    success_url = reverse_lazy('tasks')
     success_message = _('Task has been edited successfully.')
     extra_context = {
         'title': _('Edit task'),
