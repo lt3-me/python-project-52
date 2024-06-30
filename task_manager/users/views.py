@@ -66,6 +66,6 @@ class DeleteUserView(
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         user_to_delete = self.object
-        context['deleted_name'] = f'\
+        context['object_label'] = f'\
             {user_to_delete.first_name} {user_to_delete}'
         return context
